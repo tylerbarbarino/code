@@ -1,0 +1,94 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+    public static char[] convert(char[] input, char[] ruleArray, int gens) {
+        char[] output = new char[input.length];
+        
+        String case1 = "111";
+        String case2 = "110";
+        String case3 = "101";
+        String case4 = "100";
+        String case5 = "011";
+        String case6 = "010";
+        String case7 = "001";
+        String case8 = "000";
+        //String testAppend = new StringBuilder();
+        String testAppend = "";
+        char a;
+        char b;
+        char c;
+        
+        for (int i = 0; i < input.length; i++) {
+            testAppend = "";
+            if (i-1 < 0) {
+                a = input[input.length-1];
+            } else {
+                a = input[i-1];
+            }
+            b = input[i];
+            if (i+1 > input.length-1) {
+                c = input[0];
+            } else {
+                c = input[i+1];
+            }
+            testAppend = "" + a + b + c;
+            //testAppend.append(a).append(b).append(c).toString
+            //System.out.println(testAppend);
+            if (testAppend.equals(case1)) {
+                output[i] = ruleArray[0];
+            } else if (testAppend.equals(case2)) {
+                output[i] = ruleArray[1];
+            } else if (testAppend.equals(case3)) {
+                output[i] = ruleArray[2];
+            } else if (testAppend.equals(case4)) {
+                output[i] = ruleArray[3];
+            } else if (testAppend.equals(case5)) {
+                output[i] = ruleArray[4];
+            } else if (testAppend.equals(case6)) {
+                output[i] = ruleArray[5];
+            } else if (testAppend.equals(case7)) {
+                output[i] = ruleArray[6];
+            } else if (testAppend.equals(case8)) {
+                output[i] = ruleArray[7];
+            }
+            //System.out.print(output[i]);
+        }
+        if (gens-1 > 0) {
+            return convert(output,ruleArray,gens-1);
+        } else {
+            for (int i = 0; i < output.length; i++) {
+                System.out.print(output[i]);
+            }
+            return output;
+        }
+    }
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner scanner = new Scanner(System.in);
+        int rule = scanner.nextInt();
+        int gens = scanner.nextInt();
+        String inputString = scanner.next();
+        int arrayLength = inputString.length();
+        
+        //String ruleString = Integer.toBinaryString(rule);
+        String ruleString = String.format("%08d", Integer.valueOf(Integer.toBinaryString(rule))); 
+        //System.out.print(ruleString);
+        char[] input = new char[arrayLength];
+        char[] ruleArray = new char[ruleString.length()];
+        //char[] output = new char[arrayLength];
+        //System.out.println(input.length);
+        for (int i = 0; i < input.length; i++) {
+            input[i] = inputString.charAt(i);
+        }
+        for (int i = 0; i < ruleArray.length; i++) {
+            ruleArray[i] = ruleString.charAt(i);
+        }
+        
+        convert(input, ruleArray, gens);
+    }
+}
